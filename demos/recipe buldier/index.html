@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Recipe Builder</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .ingredient-list {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="text-center mb-4">Interactive Recipe Builder</h1>
+        <div class="row">
+            <div class="col-md-6 mb-4">
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-title h5 mb-0">Add Ingredients</h2>
+                    </div>
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <label for="ingredient-select" class="form-label">Select Ingredient</label>
+                            <select id="ingredient-select" class="form-select">
+                                <option value="">Choose an ingredient</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="quantity-input" class="form-label">Quantity (servings)</label>
+                            <input type="number" id="quantity-input" class="form-control" min="1" value="1">
+                        </div>
+                        <button id="add-ingredient" class="btn btn-primary">Add to Recipe</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 mb-4">
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-title h5 mb-0">Recipe Ingredients</h2>
+                    </div>
+                    <div class="card-body">
+                        <ul id="ingredient-list" class="list-group ingredient-list"></ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 mb-4">
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-title h5 mb-0">Nutrition Information</h2>
+                    </div>
+                    <div class="card-body">
+                        <p>Calories: <span id="total-calories">0</span> kcal</p>
+                        <p>Protein: <span id="total-protein">0</span> g</p>
+                        <p>Carbs: <span id="total-carbs">0</span> g</p>
+                        <p>Fat: <span id="total-fat">0</span> g</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 mb-4">
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-title h5 mb-0">Shopping List</h2>
+                    </div>
+                    <div class="card-body">
+                        <button id="generate-shopping-list" class="btn btn-primary mb-3">Generate Shopping List</button>
+                        <button id="view-shopping-list" class="btn btn-outline-primary mb-3" data-bs-toggle="modal" data-bs-target="#shopping-list-modal" disabled>View Shopping List</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Shopping List Modal -->
+    <div class="modal fade" id="shopping-list-modal" tabindex="-1" aria-labelledby="shopping-list-modal-label" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="shopping-list-modal-label">Shopping List</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <ul id="shopping-list" class="list-group"></ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Mock database of ingredients with nutritional information
+        const ingredientDatabase = [
+    { id: 1, name: 'Tofu', calories: 76, protein: 8, carbs: 1.9, fat: 4.8 }, 
+    { id: 2, name: 'Brown Rice', calories: 216, protein: 5, carbs: 45, fat: 1.6 },
+    { id: 3, name: 'Broccoli', calories: 55, protein: 3.7, carbs: 11.2, fat: 0.6 },
+    { id: 4, name: 'Olive Oil', calories: 119, protein: 0, carbs: 0, fat: 13.5 },
+    { id: 5, name: 'Tempeh', calories: 192, protein: 20, carbs: 9.4, fat: 10.8 }, 
+    { id: 6, name: 'Sweet Potato', calories: 86, protein: 1.6, carbs: 20, fat: 0.1 },
+    { id: 7, name: 'Spinach', calories: 23, protein: 2.9, carbs: 3.6, fat: 0.4 },
+    { id: 8, name: 'Quinoa', calories: 120, protein: 4.4, carbs: 21, fat: 1.9 },
+    { id: 9, name: 'Avocado', calories: 160, protein: 2, carbs: 8.5, fat: 14.7 },
+    { id: 10, name: 'Greek Yogurt', calories: 59, protein: 10, carbs: 3.6, fat: 0.4 },
+];
+
+
+        let recipeIngredients = [];
+
+        // DOM elements
+        const ingredientSelect = document.getElementById('ingredient-select');
+        const quantityInput = document.getElementById('quantity-input');
+        const addIngredientBtn = document.getElementById('add-ingredient');
+        const ingredientList = document.getElementById('ingredient-list');
+        const totalCalories = document.getElementById('total-calories');
+        const totalProtein = document.getElementById('total-protein');
+        const totalCarbs = document.getElementById('total-carbs');
+        const totalFat = document.getElementById('total-fat');
+        const generateShoppingListBtn = document.getElementById('generate-shopping-list');
+        const viewShoppingListBtn = document.getElementById('view-shopping-list');
+        const shoppingList = document.getElementById('shopping-list');
+
+        // Populate ingredient select
+        ingredientDatabase.forEach(ingredient => {
+            const option = document.createElement('option');
+            option.value = ingredient.id;
+            option.textContent = ingredient.name;
+            ingredientSelect.appendChild(option);
+        });
+
+        // Add ingredient to recipe
+        addIngredientBtn.addEventListener('click', () => {
+            const selectedIngredientId = parseInt(ingredientSelect.value);
+            const quantity = parseInt(quantityInput.value);
+
+            if (selectedIngredientId && quantity > 0) {
+                const ingredient = ingredientDatabase.find(ing => ing.id === selectedIngredientId);
+                const newIngredient = { ...ingredient, quantity };
+                recipeIngredients.push(newIngredient);
+                updateIngredientList();
+                updateNutritionInfo();
+                ingredientSelect.value = '';
+                quantityInput.value = '1';
+            }
+        });
+
+        // Update ingredient list
+        function updateIngredientList() {
+            ingredientList.innerHTML = '';
+            recipeIngredients.forEach((ingredient, index) => {
+                const li = document.createElement('li');
+                li.className = 'list-group-item d-flex justify-content-between align-items-center';
+                li.innerHTML = `
+                    ${ingredient.name} (x${ingredient.quantity})
+                    <button class="btn btn-danger btn-sm remove-ingredient" data-index="${index}">Remove</button>
+                `;
+                ingredientList.appendChild(li);
+            });
+
+            // Add event listeners to remove buttons
+            document.querySelectorAll('.remove-ingredient').forEach(button => {
+                button.addEventListener('click', (e) => {
+                    const index = parseInt(e.target.getAttribute('data-index'));
+                    recipeIngredients.splice(index, 1);
+                    updateIngredientList();
+                    updateNutritionInfo();
+                });
+            });
+        }
+
+        // Update nutrition information
+        function updateNutritionInfo() {
+            const totals = recipeIngredients.reduce((acc, ing) => {
+                acc.calories += ing.calories * ing.quantity;
+                acc.protein += ing.protein * ing.quantity;
+                acc.carbs += ing.carbs * ing.quantity;
+                acc.fat += ing.fat * ing.quantity;
+                return acc;
+            }, { calories: 0, protein: 0, carbs: 0, fat: 0 });
+
+            totalCalories.textContent = totals.calories.toFixed(1);
+            totalProtein.textContent = totals.protein.toFixed(1);
+            totalCarbs.textContent = totals.carbs.toFixed(1);
+            totalFat.textContent = totals.fat.toFixed(1);
+        }
+
+        // Generate shopping list
+        generateShoppingListBtn.addEventListener('click', () => {
+            shoppingList.innerHTML = '';
+            if (recipeIngredients.length === 0) {
+                const li = document.createElement('li');
+                li.className = 'list-group-item';
+                li.textContent = 'No ingredients added to the recipe yet.';
+                shoppingList.appendChild(li);
+            } else {
+                recipeIngredients.forEach(ingredient => {
+                    const li = document.createElement('li');
+                    li.className = 'list-group-item';
+                    li.textContent = `${ingredient.name} (${ingredient.quantity} serving${ingredient.quantity > 1 ? 's' : ''})`;
+                    shoppingList.appendChild(li);
+                });
+            }
+            viewShoppingListBtn.disabled = false;
+            alert('Shopping list generated! Click "View Shopping List" to see it.');
+        });
+
+        // Initialize Bootstrap modal
+        const shoppingListModal = new bootstrap.Modal(document.getElementById('shopping-list-modal'));
+
+        // View shopping list
+        viewShoppingListBtn.addEventListener('click', () => {
+            shoppingListModal.show();
+        });
+    </script>
+</body>
+</html>

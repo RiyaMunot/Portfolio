@@ -1,0 +1,109 @@
+:root {
+    --primary-color: #4a90e2;
+    --secondary-color: #50c878;
+    --background-color: #f8f9fa;
+    --text-color: #333;
+    --card-bg: #ffffff;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: var(--background-color);
+    color: var(--text-color);
+}
+
+.navbar {
+    background-color: var(--primary-color);
+}
+
+.navbar-brand, .nav-link {
+    color: white !important;
+}
+
+.sidebar {
+    background-color: var(--card-bg);
+    border-right: 1px solid #dee2e6;
+    height: calc(100vh - 56px);
+    position: fixed;
+    top: 56px;
+    left: 0;
+    width: 250px;
+    overflow-y: auto;
+}
+
+.content-area {
+    margin-left: 250px;
+    padding: 20px;
+}
+
+.draggable {
+    cursor: move;
+    margin-bottom: 10px;
+    padding: 10px;
+    background-color: var(--card-bg);
+    border: 1px solid #dee2e6;
+    border-radius: 5px;
+}
+
+.draggable:hover {
+    background-color: #f1f3f5;
+}
+
+.drop-zone {
+    min-height: 200px;
+    border: 2px dashed #dee2e6;
+    border-radius: 5px;
+    padding: 20px;
+    background-color: var(--card-bg);
+}
+
+.drop-zone.dragover {
+    background-color: #e9ecef;
+    border-color: var(--primary-color);
+}
+
+.content-block {
+    margin-bottom: 20px;
+    padding: 15px;
+    background-color: var(--card-bg);
+    border: 1px solid #dee2e6;
+    border-radius: 5px;
+}
+
+.content-block .handle {
+    cursor: move;
+    padding: 5px;
+    background-color: #f1f3f5;
+    border-radius: 3px;
+    margin-right: 10px;
+}
+
+.template-option {
+    cursor: pointer;
+    padding: 10px;
+    margin-bottom: 10px;
+    background-color: var(--card-bg);
+    border: 1px solid #dee2e6;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+}
+
+.template-option:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.color-option {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 10px;
+    cursor: pointer;
+    border: 2px solid #fff;
+    box-shadow: 0 0 0 1px #dee2e6;
+}
+
+.color-option.active {
+    box-shadow: 0 0 0 2px var(--primary-color);
+}

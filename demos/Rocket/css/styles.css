@@ -1,0 +1,224 @@
+body {
+    margin: 0;
+    background: #000;
+    font-family: Arial, sans-serif;
+    overflow: hidden;
+}
+
+.container {
+    width: 100vw;
+    height: 100vh;
+    background: linear-gradient(to bottom, #87CEEB, #000);
+    position: relative;
+    overflow: hidden;
+}
+
+.clouds {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    transition: opacity 2s ease-in-out;
+}
+
+.cloud1, .cloud2 {
+    position: absolute;
+    background: white;
+    border-radius: 50px;
+}
+
+.cloud1 {
+    width: 200px;
+    height: 60px;
+    left: 10%;
+    top: 10%;
+}
+
+.cloud2 {
+    width: 300px;
+    height: 80px;
+    right: 15%;
+    top: 5%;
+}
+
+.moon {
+    width: 60px;
+    height: 60px;
+    background: #CCCCCC;
+    position: absolute;
+    right: 10%;
+    top: 10%;
+    border-radius: 50%;
+    box-shadow: 0 0 20px #CCCCCC;
+    transition: all 90s linear;
+}
+
+.launch-pad {
+    position: absolute;
+    bottom: 0;
+    left: 10%;
+}
+
+.tower-vertical {
+    width: 20px;
+    height: 200px;
+    background: #929292;
+    position: relative;
+}
+
+.tower-horizontal {
+    width: 100px;
+    height: 20px;
+    background: #929292;
+    position: absolute;
+    left: -40px;
+    top: 50px;
+}
+
+.rocket {
+    width: 60px;
+    height: 120px;
+    position: absolute;
+    left: calc(10% + 30px);
+    bottom: 200px;
+    transition: all 60s ease-out;
+}
+
+.rocket .text {
+    position: absolute;
+    font-size: 12px;
+    color: white;
+    text-align: center;
+    width: 100%;
+    top: 40%;
+}
+
+.rocket .top {
+    width: 0;
+    height: 0;
+    border-left: 30px solid transparent;
+    border-right: 30px solid transparent;
+    border-bottom: 40px solid #C9C9C9;
+    position: absolute;
+    top: -40px;
+}
+
+.rocket .body {
+    width: 60px;
+    height: 80px;
+    background: #C9C9C9;
+    position: absolute;
+    top: 0;
+}
+
+.left-booster, .right-booster {
+    width: 20px;
+    height: 60px;
+    background: #ACACAC;
+    position: absolute;
+    top: 60px;
+}
+
+.left-booster {
+    left: -20px;
+}
+
+.right-booster {
+    right: -20px;
+}
+
+.left-cone, .right-cone {
+    width: 0;
+    height: 0;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-bottom: 20px solid #888888;
+    position: absolute;
+    top: -20px;
+}
+
+.main-thrust, .left-thrust, .right-thrust {
+    width: 0;
+    height: 0;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-top: 20px solid orange;
+    position: absolute;
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+}
+
+.main-thrust {
+    bottom: -20px;
+    left: 20px;
+}
+
+.left-thrust, .right-thrust {
+    bottom: -20px;
+    left: 0;
+}
+
+.tree {
+    width: 30px;
+    height: 100px;
+    background: #A72200;
+    position: absolute;
+    right: 20%;
+    bottom: 0;
+}
+
+.branch1, .branch2, .branch3 {
+    width: 50px;
+    height: 50px;
+    background: #00FF00;
+    position: absolute;
+    border-radius: 50%;
+}
+
+.branch1 { left: -10px; bottom: 70px; }
+.branch2 { left: -20px; bottom: 40px; }
+.branch3 { left: 0; bottom: 90px; }
+
+.stars {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+.star {
+    position: absolute;
+    width: 2px;
+    height: 2px;
+    background: white;
+    border-radius: 50%;
+    opacity: 0;
+    transition: opacity 2s ease-in-out;
+}
+
+.controls {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 10px;
+}
+
+button {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+button:active {
+    background-color: #3e8e41;
+}

@@ -1,0 +1,107 @@
+body {
+    background: #151F28;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: Arial, sans-serif;
+    color: #fff;
+}
+
+.container {
+    text-align: center;
+    padding: 2rem 0;
+}
+
+.gallery-container {
+    margin-bottom: 2rem;
+    height: 400px;
+}
+
+.box {
+    position: relative;
+    width: 200px;
+    height: 300px;
+    transform-style: preserve-3d;
+    transition: transform 0.5s;
+    margin: 0 auto;
+}
+
+.box span {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    transform-origin: center;
+    transform-style: preserve-3d;
+    transition: 0.5s;
+}
+
+.box span img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
+    transition: 0.5s;
+    cursor: pointer;
+}
+
+.box span:hover img {
+    transform: scale(1.1);
+    box-shadow: 0 0 20px rgba(255,255,255,0.5);
+}
+
+.controls {
+    margin-top: 2rem;
+position:relative;
+bottom:80px;
+}
+
+.btn {
+
+    margin: 0 0.5rem;
+
+}
+
+h1 {
+    margin-bottom: 2rem;
+}
+
+#imageModal .modal-content {
+    background-color: rgba(21, 31, 40, 0.9);
+    border: none;
+    color: #fff;
+}
+
+#imageModal .modal-body {
+    padding: 0;
+}
+
+#imageModal img {
+    width: 100%;
+    border-radius: 10px;
+}
+
+#zoomRange {
+    width: 100%;
+}
+
+.image-info {
+        position: relative;
+bottom: 4rem;
+    font-size: 0.9rem;
+}
+
+.progress {
+position: relative;
+bottom: 4rem;
+width:50%;
+    height: 5px;
+    margin-top: 1rem;
+left:25%;
+}
